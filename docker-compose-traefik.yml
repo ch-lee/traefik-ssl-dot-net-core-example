@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  reverse-proxy:
+    image: traefik:1.7.9 # The official Traefik docker image
+    container_name: traefik
+    ports:
+      - "80:80"     # The HTTP port
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock #So that Traefik can listen to the Docker events
+      - /usr/local/deploy/traefik.toml:/traefik.toml
+      - /usr/local/deploy/acme.json:/acme.json
+    networks:
+      - web
+    labels:
+      - traefik.frontend.rule=Host:dashboard.yourdomain.com
+      - traefik.port=8081
+networks:
+  web:
+    name: traefik_network

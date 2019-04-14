@@ -1,0 +1,19 @@
+version: "3.5"
+
+services:
+  aspnet_demo:
+    image: microsoft/dotnet-samples:aspnetapp
+    container_name: aspnetcore_sample
+    networks:
+     - web
+    labels:
+      - traefik.docker.network=traefik_network
+      - traefik.backend=aspnetdemoweb
+      - traefik.frontend.rule=Host:aspnetdemo.yourdomain.com
+      - traefik.enable=true
+      - traefik.port=80 # the port of the container
+
+networks:
+  web:
+    name: traefik_network
+

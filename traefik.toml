@@ -1,0 +1,37 @@
+logLevel = "INFO"
+
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.dashboard]
+  address = ":8081"
+    [entryPoints.dashboard.auth]
+      [entryPoints.dashboard.auth.basic]
+      users = ["admin:$apr1$glhFgOfD$rWEOq/KV2bo76ptmUynDH."]
+  [entryPoints.http]
+   address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+     [entryPoints.https.tls]
+
+
+[api]
+entrypoint="dashboard"
+dashboard=true
+
+[acme]
+email = "your-email-here@email.com"
+storage = "acme.json"
+entryPoint = "https"
+onHostRule = true
+[acme.httpChallenge]
+entryPoint = "http"
+
+[docker]
+domain = "yourdomain.com"
+watch = true
+network = "traefik_network"
+swarmMode = false
+
